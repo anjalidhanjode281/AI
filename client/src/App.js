@@ -1,88 +1,75 @@
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// function App() {
-//   const [deviceInfo, setDeviceInfo] = useState({});
-//   const [batteryStatus, setBatteryStatus] = useState({});
-//   const [internetSpeed, setInternetSpeed] = useState({});
-
-//   function giveTest() {
-//     axios.get('http://localhost:5000/api/device').then(response => setDeviceInfo(response.data));
-//     axios.get('http://localhost:5000/api/internet-speed').then(response => setInternetSpeed(response.data));
-    
-//     navigator.getBattery().then(battery => {
-//       setBatteryStatus({
-//         level: battery.level * 100 + '%',
-//         charging: battery.charging
-//       });
-//     });
-//   }
-
-//   useEffect(() => {
-//    giveTest()
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>Device Info</h1>
-//       <pre>{JSON.stringify(deviceInfo, null, 2)}</pre>
-
-//       <h1>Battery Status</h1>
-//       <pre>{JSON.stringify(batteryStatus, null, 2)}</pre>
-
-//       <h1>Internet Speed</h1>
-//       <pre>{JSON.stringify(internetSpeed, null, 2)}</pre>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
+import "./App.css";
+import upthink from "./images/logo2.png"
 
 function App() {
   const [deviceInfo, setDeviceInfo] = useState();
   const [batteryStatus, setBatteryStatus] = useState();
   const [internetSpeed, setInternetSpeed] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [batteryReport, setBatteryReport] = useState('');
+ 
 
   function giveTest() {
+    setIsLoading(true);
     axios.get('http://localhost:5000/api/device')
-    .then(response => setDeviceInfo(response.data))
-    .catch(error => {
-      console.error('Error fetching device info:', error);
-      // You can also set some user-friendly message in state and show it in UI
-    });
-  
-  axios.get('http://localhost:5000/api/internet-speed')
-    .then(response => setInternetSpeed(response.data))
-    .catch(error => {
-      console.error('Error fetching internet speed:', error);
-      // You can also set some user-friendly message in state and show it in UI
-    });
-    
+      .then(response => setDeviceInfo(response.data))
+      .catch(error => console.error('Error fetching device info:', error))
+      .finally(() => setIsLoading(false));
+
+    axios.get('http://localhost:5000/api/internet-speed')
+      .then(response => setInternetSpeed(response.data))
+      .catch(error => console.error('Error fetching internet speed:', error))
+      .finally(() => setIsLoading(false));
+
     navigator.getBattery().then(battery => {
       setBatteryStatus({
         level: battery.level * 100 + '%',
         charging: battery.charging
       });
     });
+
+    axios.get('http://localhost:5000/api/battery-report')
+    .then((response) => {
+      setBatteryReport(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching battery report:', error);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
   }
 
   return (
-    <div style={{margin:"auto", width: "50%"}}>
-      <h1>Device Info</h1>
-      <button onClick={giveTest}>Get Device Information</button>
+    <div className='App' style={{margin:"auto", width: "50%", marginTop:"40px", textAlign:'left'}}>
+      
+     <div className='btn'>
+     <button onClick={giveTest}>Get Device Information</button>
+     </div>
+
+      { isLoading && <div>Loading...</div> }
+     
+        <div>
+     <h1 >Device Info</h1>
       <pre>{JSON.stringify(deviceInfo, null, 2)}</pre>
 
       <h1>Battery Status</h1>
       <pre>{JSON.stringify(batteryStatus, null, 2)}</pre>
 
+      { batteryReport && (
+        <div>
+          <div dangerouslySetInnerHTML={{ __html: batteryReport }} />
+        </div>
+      )}
+
       <h1>Internet Speed</h1>
       <pre>{JSON.stringify(internetSpeed, null, 2)}</pre>
+
+     </div>
+      
+     
     </div>
   );
 }

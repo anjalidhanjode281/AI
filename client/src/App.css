@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -7,6 +8,28 @@
   pointer-events: none;
 }
 
+h1 {
+
+  color: #11D8E8;
+
+  font-size: 42pt;
+
+}
+.btn {
+  margin: auto;
+  justify-content: center;
+  width: 50%;
+}
+.btn > img {
+  width: 60%;
+}
+.btn > button {
+  height: 50px;
+  font-size: 20px;
+  border-radius: 20px;
+  padding: 10px 20px;
+  border: none;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
