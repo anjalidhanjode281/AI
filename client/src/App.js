@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./App.css";
-import upthink from "./images/logo2.png"
+
 
 function App() {
   const [deviceInfo, setDeviceInfo] = useState();
