@@ -13,12 +13,12 @@ function App() {
 
   function giveTest() {
     setIsLoading(true);
-    axios.get('http://localhost:5000/api/device')
+    axios.get('https://teal-plain-gazelle.cyclic.cloud/api/device')
       .then(response => setDeviceInfo(response.data))
       .catch(error => console.error('Error fetching device info:', error))
       .finally(() => setIsLoading(false));
 
-    axios.get('http://localhost:5000/api/internet-speed')
+    axios.get('https://teal-plain-gazelle.cyclic.cloud/api/internet-speed')
       .then(response => setInternetSpeed(response.data))
       .catch(error => console.error('Error fetching internet speed:', error))
       .finally(() => setIsLoading(false));
@@ -30,7 +30,7 @@ function App() {
       });
     });
 
-    axios.get('http://localhost:5000/api/battery-report')
+    axios.get('https://teal-plain-gazelle.cyclic.cloud/api/battery-report')
     .then((response) => {
       setBatteryReport(response.data);
     })

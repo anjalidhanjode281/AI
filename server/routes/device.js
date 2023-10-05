@@ -58,7 +58,7 @@ router.get('/device', async (req, res) => {
   const axios = require('axios');
 router.get('/internet-speed', async (req, res) => {
     const fileSizeInBytes = 5000000; // example: 5MB
-    const url = 'https://your-fast-server.com/path-to-5mb-file'; // Replace with a link to your file
+    const url = 'https://github.com/anjalidhanjode281/starter-express-api/archive/refs/heads/main.zip'; // Replace with a link to your file
 
     const startTime = new Date().getTime();
 
