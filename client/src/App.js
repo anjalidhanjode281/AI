@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./App.css";
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 
 function App() {
@@ -13,12 +14,12 @@ function App() {
 
   function giveTest() {
     setIsLoading(true);
-    axios.get('https://teal-plain-gazelle.cyclic.cloud/api/device')
+    axios.get('http://localhost:5000/api/device')
       .then(response => setDeviceInfo(response.data))
       .catch(error => console.error('Error fetching device info:', error))
       .finally(() => setIsLoading(false));
 
-    axios.get('https://teal-plain-gazelle.cyclic.cloud/api/internet-speed')
+    axios.get('http://localhost:5000/api/internet-speed')
       .then(response => setInternetSpeed(response.data))
       .catch(error => console.error('Error fetching internet speed:', error))
       .finally(() => setIsLoading(false));
@@ -30,7 +31,7 @@ function App() {
       });
     });
 
-    axios.get('https://teal-plain-gazelle.cyclic.cloud/api/battery-report')
+    axios.get('http://localhost:5000/api/battery-report')
     .then((response) => {
       setBatteryReport(response.data);
     })
@@ -46,7 +47,7 @@ function App() {
     <div className='App' style={{margin:"auto", width: "50%", marginTop:"40px", textAlign:'left'}}>
       
      <div className='btn'>
-     <button onClick={giveTest}>Get Device Information</button>
+     <button onClick={giveTest}>Click Here To Get Device Information</button>
      </div>
 
       { isLoading && <div>Loading...</div> }
@@ -54,6 +55,9 @@ function App() {
         <div>
      <h1 >Device Info</h1>
       <pre>{JSON.stringify(deviceInfo, null, 2)}</pre>
+
+      <h1>Internet Speed</h1>
+      <pre>{JSON.stringify(internetSpeed, null, 2)}</pre>
 
       <h1>Battery Status</h1>
       <pre>{JSON.stringify(batteryStatus, null, 2)}</pre>
@@ -64,8 +68,7 @@ function App() {
         </div>
       )}
 
-      <h1>Internet Speed</h1>
-      <pre>{JSON.stringify(internetSpeed, null, 2)}</pre>
+      <ScrollToTopButton />
 
      </div>
       
